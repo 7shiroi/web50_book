@@ -11,6 +11,7 @@ psycopg2-binary = "*"
 SQLAlchemy = "*"
 Flask-Session = "*"
 flask-sqlalchemy = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.8"
