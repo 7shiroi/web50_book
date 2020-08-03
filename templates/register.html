@@ -1,0 +1,47 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Project 1</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/dist/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/signin.css') }}">
+</head>
+<body class="text-center">
+    <div class="container">
+        <form class="form-signin" method="POST">
+            {% if errors %}
+                    {% for error in errors %}
+                    <div class="alert alert-danger">
+                        {{ error }}         
+                    </div>    
+                    {% endfor %}
+            {% endif %}
+            <h1 class="h3 mb-3 font-weight-normal">Registration</h1>
+            <div class="form-label-group">
+                <input type="text" id="inputUsername" class="form-control" placeholder="Username" name="username" required autofocus>
+                <label for="inputUsername">Username</label>
+            </div>
+            <div class="form-label-group">
+                <input type="text" id="inputName" class="form-control" placeholder="Name" name="name" required autofocus>
+                <label for="inputName">Name</label>
+            </div>
+            <div class="form-label-group">
+                <input type="email" id="inputEmail" class="form-control" placeholder="Email" name="email" required autofocus>
+                <label for="inputEmail">Email</label>
+            </div>
+            <div class="form-label-group">
+                <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password" required>
+                <label for="inputPassword">Password</label>
+            </div>    
+            <div class="form-label-group">
+                <input type="password" id="inputPasswordAgain" class="form-control" placeholder="Re-enter Password" name="password2" required>
+                <label for="inputPasswordAgain">Re-enter Password</label>
+            </div>    
+            
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+            <a href="{{ url_for('login_page') }}" class="btn btn-lg btn-info btn-block" type="submit">Back to Login Page</a>
+        </form>
+    </div>    
+</body>
+</html>

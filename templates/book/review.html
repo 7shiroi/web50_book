@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block body %}
+    <main role='main'>
+        {% if errors %} 
+        <div class="alert alert-danger">
+            {% for error in errors %}
+                {{ error }}             
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-success">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class="container">
+            <div class="row">
+                <div class='col-sm'>
+                    <h1>Book Review</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <p><b>Title:</b> {{book.title}}</p>
+                </div>
+                <div class="col-sm">
+                    <p><b>Author:</b> {{book.author}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <p><b>ISBN:</b> {{book.isbn}}</p>
+                </div>
+                <div class="col-sm">
+                    <p><b>Publication year:</b> {{book.release}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <p><b>Goodreads Rating:</b> {{grRating['average_rating']}} <small>({{grRating['ratings_count']}} ratings count)</small></p>
+                </div>
+                <div class="col-sm">
+                    <p><b>Users Rating:</b> {{ "%.2f"|format(userRating.average_rating) }} <small>({{userRating.ratings_count}} ratings count)</small></p>
+                </div>
+            </div>
+        </div>
+        {% if review['status'] %}
+            <div class="container">
+                <h3>{{review['rating']}}</h3>
+                <p>{{review['review']}}</p>
+            </div>
+        {% else %}
+            <div class="container">
+                <div class="row">
+                    <h3>What do you think about this book?</h3>
+                </div>
+                <form action="{{url_for('book_review_post', book_id = book.id)}}" method="POST" class="form-row">
+                    <div class="form-group col-md-5">
+                        <p><b>Review:</b> </p>
+                        <textarea class="form-control" name="review" cols="50" rows="3" placeholder="Enter your review here"></textarea>                
+                    </div>
+                    <div class="form-group col-md-1">
+                        <p><b>Rating: </b></p>
+                        <input class="form-control" type="number" name="rating" max="5" min="1" value="1" maxlength="1">
+                        <button type="submit" class="form-control btn btn-block btn-primary">Post Review</button>
+                    </div>
+                </form>
+            </div>
+        {% endif %}
+    </main>
+{% endblock %}

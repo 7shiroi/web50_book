@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block body %}
+    <main role='main'>
+        <div class='col-md-2'>
+            <h1>Books</h1>
+        </div>
+        <div class="container row">
+            <form action="{{ url_for('books_list0') }}" method="GET" class="form-row col">
+                <!-- <input type="hidden" name="book"> -->
+                <div class="form-group col-md-9">
+                    <input class="form-control" type="text" name="searchAnyValue" placeholder="Enter Keywords" value="{{searchAnyValue}}">
+                </div>
+                <div class="form-group col-md-3">
+                    <button class="form-control btn btn-block btn-dark" type="submit" value="Search">Search</button>
+                </div>
+            </form>
+        </div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">ISBN</th>
+                <th scope="col">Tilte</th>
+                <th scope="col">Author</th>
+                <th scope="col">Release</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for book in books.items %}
+                    <tr>
+                        <th scope="row">{{ ((books.page - 1) * books.per_page) + loop.index }}</th>
+                        <td>{{book.isbn}}</td>
+                        <td><a href="{{url_for('book_review', book_id = book.id)}}">{{book.title}}</a></td>
+                        <td>{{book.author}}</td>
+                        <td>{{book.release}}</td>
+                    </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="row justify-content-md-center">
+            <nav aria-label="...">
+                <ul class="pagination">
+                    {% if searchAnyValue %}
+                    {% set getValue = '?searchAnyValue='+searchAnyValue %}
+                    {% endif %}
+                    {% if books.has_prev %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{url_for('books_list', page_num = books.prev_num)}}{{getValue}}" tabindex="-1">Previous</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1">Previous</a>
+                        </li>
+                    {% endif %}
+                    {% for page in books.iter_pages(left_edge=3, right_edge=3) %}
+                        {% if page %}
+                            <li class="page-item"><a class="page-link" href="{{url_for('books_list', page_num = page)}}{{getValue}}">{{page}}</a></li>
+                        {% else %}
+                            <li class="page-item disabled" id="example_ellipsis"><a href="#" class="page-link">…</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if books.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{url_for('books_list', page_num = books.next_num)}}{{getValue}}">Next</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled">
+                            <a class="page-link" tabindex="-1">Next</a>
+                        </li>
+                    {% endif %}
+                </ul> 
+            </nav>
+        </div>
+    </main>
+{% endblock %}

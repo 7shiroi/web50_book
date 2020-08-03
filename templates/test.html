@@ -1,0 +1,6 @@
+{% for test in tests %}
+    <li>{{ test.username, test.email, test.password }}</li>
+{% endfor %}
+{% if not tests %}
+    <p>not found</p>
+{% endif %}
